@@ -1,0 +1,1038 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d24">
+  <title>Chaand Se Pehle, Tum | Ayush & Sushma</title>
+
+  <style>
+    :root {
+      --gold: #f6d99b;
+      --pink: #ffc5d4;
+      --white: #fff9f2;
+      --night: #080d24;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--white);
+      background: var(--night);
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: 1px solid var(--gold);
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.09);
+      color: var(--gold);
+      padding: 14px 24px;
+      margin: 10px 5px;
+      transition: background 0.25s, transform 0.25s;
+    }
+
+    button:hover {
+      background: var(--gold);
+      color: #15182c;
+      transform: translateY(-2px);
+    }
+
+    button:focus-visible {
+      outline: 3px solid white;
+      outline-offset: 4px;
+    }
+
+    .sky {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background: linear-gradient(
+        180deg,
+        #050918 0%,
+        #171d40 60%,
+        #51364e 100%
+      );
+    }
+
+    .mountains {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 30vh;
+      z-index: -1;
+      background: #0b1228;
+      clip-path: polygon(
+        0 85%, 12% 43%, 25% 75%, 43% 13%,
+        60% 76%, 77% 28%, 100% 82%,
+        100% 100%, 0 100%
+      );
+    }
+
+    .mountains-back {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 38vh;
+      z-index: -2;
+      background: #28304f;
+      opacity: 0.75;
+      clip-path: polygon(
+        0 70%, 17% 30%, 34% 72%, 52% 22%,
+        72% 68%, 90% 34%, 100% 62%,
+        100% 100%, 0 100%
+      );
+    }
+
+    .star {
+      position: fixed;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: twinkle 3s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from {
+        opacity: 0.15;
+        transform: scale(0.6);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1.5);
+      }
+    }
+
+    section {
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: 80px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1, h2 {
+      font-weight: normal;
+      color: var(--gold);
+    }
+
+    h1 {
+      font-size: clamp(2.7rem, 9vw, 5.5rem);
+      line-height: 1.1;
+      margin: 18px 0;
+    }
+
+    h2 {
+      font-size: clamp(1.9rem, 7vw, 3rem);
+    }
+
+    p {
+      font-size: 1.08rem;
+      line-height: 1.9;
+      max-width: 570px;
+    }
+
+    .small {
+      font-size: 0.78rem;
+      letter-spacing: 3px;
+      color: var(--pink);
+    }
+
+    .moon {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 35% 30%,
+        #fffdf0 0%,
+        #f8e6b5 45%,
+        #c9a66b 100%
+      );
+      box-shadow:
+        0 0 35px #f9dfa799,
+        0 0 100px #f9dfa744;
+      animation: floatMoon 5s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes floatMoon {
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    .card {
+      background: rgba(12, 17, 43, 0.83);
+      border: 1px solid #e8c78a55;
+      border-radius: 24px;
+      padding: 35px 25px;
+      width: 100%;
+      max-width: 600px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 50px #00000033;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .memory-stars {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .memory-stars button {
+      font-size: 1.8rem;
+      padding: 10px 17px;
+    }
+
+    #memoryText {
+      min-height: 90px;
+      color: var(--pink);
+      margin: 20px auto;
+    }
+
+    /* Moon and channi scene */
+
+    .moon-stage {
+      position: relative;
+      width: min(100%, 360px);
+      height: 340px;
+      margin: 20px auto;
+      touch-action: none;
+    }
+
+    .moon-stage .moon {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: none;
+    }
+
+    #ritualMoon {
+      overflow: hidden;
+      isolation: isolate;
+      transition: box-shadow 2s ease;
+    }
+
+    .moon-photo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(1.15);
+      transition:
+        opacity 2.5s ease,
+        transform 3s ease;
+    }
+
+    .moon-photo.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #ritualMoon.revealed {
+      box-shadow:
+        0 0 40px #fff0bb,
+        0 0 100px #f6d99baa,
+        0 0 180px #f6d99b66;
+    }
+
+    .channi {
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      top: 155px;
+      left: calc(50% - 85px);
+      border: 12px double #e6be7a;
+      border-radius: 50%;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent 0 9px,
+          #e4c99088 10px,
+          transparent 11px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0 9px,
+          #e4c99088 10px,
+          transparent 11px
+        );
+      box-shadow: 0 0 20px #f6d99b55;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+      z-index: 2;
+    }
+
+    .channi::after {
+      content: "";
+      position: absolute;
+      width: 60px;
+      height: 13px;
+      background: #c49a55;
+      border-radius: 10px;
+      right: -57px;
+      top: 65px;
+    }
+
+    .channi:active {
+      cursor: grabbing;
+    }
+
+    .channi.moved-aside {
+      pointer-events: none;
+      opacity: 0.15;
+      transition: opacity 1s ease;
+    }
+
+    #reveal {
+      color: var(--pink);
+      min-height: 60px;
+      transition: opacity 1s ease;
+    }
+
+    .reveal-heading {
+      font-size: 1.6rem;
+      color: var(--gold);
+    }
+
+    /* Wedding countdown */
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 25px 0;
+    }
+
+    .timebox {
+      min-width: 80px;
+      padding: 15px 10px;
+      background: #ffffff13;
+      border: 1px solid #f6d99b55;
+      border-radius: 12px;
+    }
+
+    .timebox strong {
+      display: block;
+      font-size: 1.8rem;
+      color: var(--gold);
+    }
+
+    .timebox span {
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+    }
+
+    .letter {
+      white-space: pre-line;
+      text-align: left;
+      line-height: 2;
+    }
+
+    /* Music player */
+
+    .music-panel {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      z-index: 30;
+    }
+
+    .music-panel button {
+      background: #141a38;
+      padding: 10px 15px;
+      font-size: 0.8rem;
+    }
+
+    .music-box {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 20, 0.94);
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .music-content {
+      width: min(100%, 560px);
+      background: #141a38;
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .video-frame {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      border-radius: 12px;
+      background: black;
+    }
+
+    .footer {
+      color: #e6d0c5;
+      font-size: 0.85rem;
+      margin-top: 35px;
+    }
+
+    @media (max-width: 450px) {
+      .card {
+        padding: 28px 18px;
+      }
+
+      .moon-stage {
+        height: 330px;
+      }
+
+      .music-panel {
+        top: 6px;
+        right: 6px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+/* MOBILE RESPONSIVENESS FIX */
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+section {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100svh;
+  padding: 80px 16px 50px;
+}
+
+.card {
+  width: 100%;
+  max-width: 600px;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+p, h1, h2 {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.moon-stage {
+  width: min(100%, 320px);
+  max-width: 100%;
+  height: 330px;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.moon-stage .moon {
+  width: 150px;
+  height: 150px;
+  left: 50%;
+  top: 10px;
+  margin-left: -75px;
+  transform: none;
+  aspect-ratio: 1 / 1;
+}
+
+.channi {
+  width: 160px;
+  height: 160px;
+  left: calc(50% - 80px);
+  top: 155px;
+  aspect-ratio: 1 / 1;
+}
+
+.moon-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: clamp(2.1rem, 10vw, 3rem);
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+  }
+
+  p {
+    font-size: 0.98rem;
+    line-height: 1.75;
+  }
+
+  .card {
+    padding: 25px 16px;
+    border-radius: 18px;
+  }
+
+  .moon-stage {
+    width: min(100%, 280px);
+    height: 310px;
+  }
+
+  .moon-stage .moon {
+    width: 140px;
+    height: 140px;
+    margin-left: -70px;
+  }
+
+  .channi {
+    width: 150px;
+    height: 150px;
+    left: calc(50% - 75px);
+  }
+
+  .channi::after {
+    width: 35px;
+    right: -32px;
+  }
+
+  .countdown {
+    gap: 7px;
+  }
+
+  .timebox {
+    min-width: 60px;
+    padding: 12px 8px;
+  }
+
+  .timebox strong {
+    font-size: 1.35rem;
+  }
+
+  .timebox span {
+    font-size: 0.6rem;
+  }
+
+  .music-panel button {
+    font-size: 0.72rem;
+    padding: 9px 12px;
+  }
+
+  button {
+    max-width: 100%;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+  <div class="sky"></div>
+  <div class="mountains-back"></div>
+  <div class="mountains"></div>
+  <div id="stars"></div>
+
+  <!-- MUSIC BUTTON -->
+
+  <div class="music-panel">
+    <button type="button" onclick="openMusic()">
+      ♫ Play Our Song
+    </button>
+  </div>
+
+  <div
+    id="musicBox"
+    class="music-box hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Our song"
+  >
+    <div class="music-content">
+      <h2>Our Moonlight Song 🌙</h2>
+      <p>Ek gaana, sirf hum dono ke liye...</p>
+      <div id="videoContainer"></div>
+
+      <p>
+        <a
+          href="https://www.youtube.com/watch?v=2knQOXevwKE"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="color:#f6d99b;"
+        >
+          Open song on YouTube
+        </a>
+      </p>
+
+      <button type="button" onclick="closeMusic()">
+        Close Music ✕
+      </button>
+    </div>
+  </div>
+
+  <!-- WELCOME -->
+
+  <section id="welcome">
+    <p class="small">A LITTLE WORLD FOR MY BETU</p>
+
+    <div class="moon"></div>
+
+    <h1>Chaand Se Pehle, Tum</h1>
+
+    <p>Our First Karwa Chauth, Before Our Forever</p>
+
+    <p class="small">AYUSH ♡ SUSHMA</p>
+
+    <button type="button" onclick="goTo('story')">
+      Mera Chaand, Yahan Tap Karo 🌙
+    </button>
+  </section>
+
+  <!-- STORY -->
+
+  <section id="story">
+    <div class="card">
+      <p class="small">EK CHHOTI SI BAAT</p>
+
+      <h2>Sunogi, Betu? ❤️</h2>
+
+      <p>
+        Humari shaadi abhi hui nahi hai...<br>
+        Aur technically yeh humara pehla
+        Karwa Chauth bhi nahi hai. 🤭
+      </p>
+
+      <p>
+        Lekin maine socha...<br>
+        Jab dil ne tumhe kab ka apna maan liya hai,<br>
+        toh pyaar ko kisi date ka intezaar kyun ho?
+      </p>
+
+      <p>
+        Isliye aaj, sirf tumhare liye,
+        ek chhoti si duniya banayi hai.
+      </p>
+
+      <button type="button" onclick="goTo('memories')">
+        Aage Chalein, Bachha? ✨
+      </button>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE STARS -->
+
+  <section id="memories">
+    <div class="card">
+      <p class="small">FIVE LITTLE STARS</p>
+
+      <h2>Har Taara, Ek Baat ✨</h2>
+
+      <p>In taaron ko chhoo kar dekho, Betu.</p>
+
+      <div class="memory-stars">
+        <button type="button" onclick="memory(0)" aria-label="Star one">⭐</button>
+        <button type="button" onclick="memory(1)" aria-label="Star two">⭐</button>
+        <button type="button" onclick="memory(2)" aria-label="Star three">⭐</button>
+        <button type="button" onclick="memory(3)" aria-label="Star four">⭐</button>
+        <button type="button" onclick="memory(4)" aria-label="Star five">⭐</button>
+      </div>
+
+      <p id="memoryText" aria-live="polite">
+        Kisi ek taare ko chuno...
+      </p>
+
+      <button type="button" onclick="goTo('moonScene')">
+        Ab Chaand Dekhein? 🌙
+      </button>
+    </div>
+  </section>
+
+  <!-- MOON AND SUSHMA PHOTO REVEAL -->
+
+  <section id="moonScene">
+    <p class="small">EK CHHOTI SI RASAM, SIRF HUMARI</p>
+
+    <h2>Chaand Aur Tum 🌙</h2>
+
+    <p>
+      Betu, channi ko dheere-dheere upar le jao,
+      aur chaand ke saamne laao.
+    </p>
+
+    <div class="moon-stage" id="moonStage">
+
+      <div class="moon" id="ritualMoon">
+        <img
+          src="images/sushma.jpg"
+          alt="My moon, Sushma"
+          class="moon-photo"
+          id="sushmaPhoto"
+        >
+      </div>
+
+      <div
+        class="channi"
+        id="channi"
+        role="button"
+        tabindex="0"
+        aria-label="Move the channi over the moon"
+      ></div>
+
+    </div>
+
+    <p id="reveal" aria-live="polite">
+      Channi ko chaand tak le jao...
+    </p>
+
+    <button
+      type="button"
+      id="nextAfterMoon"
+      class="hidden"
+      onclick="goTo('countdownScene')"
+    >
+      Humare Forever Ki Taraf ❤️
+    </button>
+  </section>
+
+  <!-- WEDDING COUNTDOWN -->
+
+  <section id="countdownScene">
+    <div class="card">
+      <p class="small">THE DAY WE BECOME US</p>
+
+      <h2>30 November 2026 💍</h2>
+
+      <p>Ab bas thoda sa intezaar, Betu...</p>
+
+      <div class="countdown">
+        <div class="timebox">
+          <strong id="days">00</strong>
+          <span>DAYS</span>
+        </div>
+
+        <div class="timebox">
+          <strong id="hours">00</strong>
+          <span>HOURS</span>
+        </div>
+
+        <div class="timebox">
+          <strong id="minutes">00</strong>
+          <span>MINUTES</span>
+        </div>
+
+        <div class="timebox">
+          <strong id="seconds">00</strong>
+          <span>SECONDS</span>
+        </div>
+      </div>
+
+      <p>
+        Phir har subah, har shaam, aur har chaand ke
+        neeche — hum saath honge.
+      </p>
+
+      <button type="button" onclick="goTo('letterScene')">
+        Ek Aakhri Chitthi 💌
+      </button>
+    </div>
+  </section>
+
+  <!-- LOVE LETTER -->
+
+  <section id="letterScene">
+    <div class="card">
+      <p class="small">FROM AYUSH, WITH LOVE</p>
+
+      <h2>Meri Sushma Ke Naam 💌</h2>
+
+      <p class="letter">Betu,
+
+Mujhe nahi pata ki ek achha pati banne ke saare jawaab mere paas hain ya nahi.
+
+Lekin itna zaroor pata hai ki main tumhare saath seekhna chahta hoon.
+
+Main chahta hoon ki hum dono ek doosre ke saath khulkar hans sakein, kabhi thak jaayein toh bina kisi darr ke keh sakein, aur mushkil dinon mein ek doosre ka haath thaam sakein.
+
+Tumhe meri har zimmedari apne kandhon par nahi uthani. Bas meri humsafar banna. Aur main bhi tumhara humsafar banunga.
+
+Iss baar humne chaand ko ek screen par dekha hai.
+
+Aane wale saalon mein, chahe hum kahin bhi hon, main chahta hoon ki hum har chhoti khushi ko isi tarah apna bana lein.
+
+I love you, bachha.
+
+Tumhara,
+Ayush ❤️</p>
+
+      <button type="button" onclick="goTo('welcome')">
+        Phir Se Chaand Dekhein 🌙
+      </button>
+    </div>
+
+    <p class="footer">
+      Made with love, just for Sushma ♡
+    </p>
+  </section>
+
+  <script>
+    // Create animated background stars
+    const starContainer = document.getElementById("stars");
+
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.style.left = Math.random() * 100 + "%";
+      star.style.top = Math.random() * 85 + "%";
+      star.style.animationDelay = Math.random() * 4 + "s";
+      starContainer.appendChild(star);
+    }
+
+    // Navigation
+    function goTo(id) {
+      document.getElementById(id).scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+    // Star messages
+    const messages = [
+      "Tumhari hasi mere din ka sabse pyaara hissa hai. ❤️",
+      "Tumhare saath normal si baatein bhi special lagti hain.",
+      "Mujhe tumhara bachpana bhi pyaara hai, aur tumhari samajhdaari bhi.",
+      "Main tumhare saath sirf khushiyan nahi, zindagi jeena chahta hoon.",
+      "Mera sabse khoobsurat kal woh hai jisme tum mere saath ho. 🌙"
+    ];
+
+    function memory(index) {
+      document.getElementById("memoryText").textContent =
+        messages[index];
+    }
+
+    // Channi interaction
+    const channi = document.getElementById("channi");
+    const stage = document.getElementById("moonStage");
+    const ritualMoon = document.getElementById("ritualMoon");
+
+    let dragging = false;
+    let revealed = false;
+    let startPointerY = 0;
+    let startTop = 155;
+
+    function checkChanniPosition() {
+      const sieve = channi.getBoundingClientRect();
+      const moon = ritualMoon.getBoundingClientRect();
+
+      const sieveCenterX = sieve.left + sieve.width / 2;
+      const sieveCenterY = sieve.top + sieve.height / 2;
+      const moonCenterX = moon.left + moon.width / 2;
+      const moonCenterY = moon.top + moon.height / 2;
+
+      const distance = Math.hypot(
+        sieveCenterX - moonCenterX,
+        sieveCenterY - moonCenterY
+      );
+
+      if (distance < 65) {
+        revealMoon();
+      }
+    }
+
+    function revealMoon() {
+      if (revealed) return;
+      revealed = true;
+
+      const photo = document.getElementById("sushmaPhoto");
+      const moon = document.getElementById("ritualMoon");
+      const message = document.getElementById("reveal");
+      const nextButton = document.getElementById("nextAfterMoon");
+
+      // Reveal Sushma's original photo
+      photo.classList.add("visible");
+      moon.classList.add("revealed");
+
+      // Fade the channi so her face can be seen clearly
+      channi.classList.add("moved-aside");
+
+      message.innerHTML = `
+        <span class="reveal-heading">
+          Mera Chaand Toh Tum Ho ❤️
+        </span>
+        <br><br>
+        Chaand toh aasman mein hai, Betu...
+        <br>
+        Par meri duniya ka sabse pyaara chaand tum ho.
+        <br><br>
+        Aur iss chaand ke saath,
+        main apni poori zindagi bitana chahta hoon.
+        🌙❤️
+      `;
+
+      nextButton.classList.remove("hidden");
+    }
+
+    channi.addEventListener("pointerdown", event => {
+      if (revealed) return;
+
+      dragging = true;
+      startPointerY = event.clientY;
+      startTop = parseFloat(channi.style.top || "155");
+
+      channi.setPointerCapture(event.pointerId);
+    });
+
+    channi.addEventListener("pointermove", event => {
+      if (!dragging || revealed) return;
+
+      const nextTop = Math.max(
+        0,
+        Math.min(
+          stage.clientHeight - channi.offsetHeight,
+          startTop + event.clientY - startPointerY
+        )
+      );
+
+      channi.style.top = nextTop + "px";
+      checkChanniPosition();
+    });
+
+    function endDrag() {
+      dragging = false;
+    }
+
+    channi.addEventListener("pointerup", endDrag);
+    channi.addEventListener("pointercancel", endDrag);
+
+    channi.addEventListener("keydown", event => {
+      if (revealed) return;
+
+      if (
+        event.key === "ArrowUp" ||
+        event.key === "ArrowDown"
+      ) {
+        event.preventDefault();
+
+        const direction =
+          event.key === "ArrowUp" ? -15 : 15;
+
+        const current =
+          parseFloat(channi.style.top) || 155;
+
+        channi.style.top = Math.max(
+          0,
+          Math.min(
+            stage.clientHeight - channi.offsetHeight,
+            current + direction
+          )
+        ) + "px";
+
+        checkChanniPosition();
+      }
+
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        revealMoon();
+      }
+    });
+
+    // Wedding countdown - Indian Standard Time
+    const weddingDate =
+      new Date("2026-11-30T00:00:00+05:30").getTime();
+
+    function updateCountdown() {
+      const remaining = Math.max(
+        0,
+        weddingDate - Date.now()
+      );
+
+      const values = {
+        days: Math.floor(remaining / 86400000),
+        hours: Math.floor((remaining / 3600000) % 24),
+        minutes: Math.floor((remaining / 60000) % 60),
+        seconds: Math.floor((remaining / 1000) % 60)
+      };
+
+      for (const [key, value] of Object.entries(values)) {
+        document.getElementById(key).textContent =
+          String(value).padStart(2, "0");
+      }
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // YouTube music player
+    const youtubeVideoId = "2knQOXevwKE";
+
+    function openMusic() {
+      const container =
+        document.getElementById("videoContainer");
+
+      const iframe = document.createElement("iframe");
+      iframe.className = "video-frame";
+      iframe.title = "Our Moonlight Song - YouTube";
+
+      iframe.src =
+        "https://www.youtube-nocookie.com/embed/" +
+        youtubeVideoId +
+        "?autoplay=1&rel=0";
+
+      iframe.allow =
+        "accelerometer; autoplay; clipboard-write; " +
+        "encrypted-media; gyroscope; picture-in-picture; web-share";
+
+      iframe.allowFullscreen = true;
+
+      container.replaceChildren(iframe);
+
+      document.getElementById("musicBox")
+        .classList.remove("hidden");
+    }
+
+    function closeMusic() {
+      document.getElementById("videoContainer")
+        .replaceChildren();
+
+      document.getElementById("musicBox")
+        .classList.add("hidden");
+    }
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        closeMusic();
+      }
+    });
+  </script>
+</body>
+</html>
